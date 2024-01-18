@@ -2,11 +2,11 @@
 /**
  * bubble_sort - function that sorts an array of integers in ascending order
  * @array: array to sort
- * @size: size
+ * @size: size of array
 */
 void bubble_sort(int *array, size_t size)
 {
-	if (array == NULL)
+	if (array == NULL || size < 2)
 		return;
 
 	for (size_t i = 0; i < size - 1; i++)
