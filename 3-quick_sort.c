@@ -1,47 +1,64 @@
 #include "sort.h"
 /**
- * 
+ *quick_sort - function that sorts an array of integers
+ *swap - function to swap in array
+ *_quick_sort -
+ *partition - function to partitioned around pivot
+ *@array: array to sort
+ *@idex1:
+ *@idex2:
 */
-void quick_sort(int *array, size_t size)
+
+void swap(int *array, int idx1, int idx2)
 {
-    if (size <= 1)
-    {
-        return;
-    }
-     int pivot = array[size / 2];
-     int left[size], right[size];
-     size_t left_size = 0;
-     size_t right_size = 0;
+	int tmp = array[idx1];
 
-     for (size_t i = 0; i < size; i++)
-     {
-        if (array[i] < pivot)
-        {
-            left[left_size++] = array[i];
-        }
-        else if (array[i] > pivot)
-        {
-            right[right_size++] = array[i];
-        }
-     }
-     quick_sort(left, left_size);
-     quick_sort(right, right_size);
-
-     for (size_t i = 0; i < left_size; i++)
-     {
-        array[i] = left[i];
-     }
-
-     array[left_size] = pivot;
-      print_array(array,size);
-
-     for (size_t i = 0; i < right_size; i++)
-     {
-        print_array(array,size);
-        array[left_size + 1 + i] = right[i];
-        
-     }
-    
-
+	array[idx1] = array[idx2];
+	array[idx2] = tmp;
 }
 
+int partition(int *array, int low, int high, int size)
+{
+	int piv, i, j;
+
+	piv = array[high];
+	i = low - 1;
+
+	for (j = low; j < high; j++)
+	{
+		if (array[j] <= piv)
+		{
+			i++;
+			if (i != j)
+			{
+				swap(array, i, j);
+				print_array(array, size);
+			}
+		}
+	}
+	i++;
+	if (array[i] > array[high])
+	{
+		swap(array, i, high);
+		print_array(array, size);
+	}
+	return (i);
+}
+
+void _quick_sort(int *array, int low, int high, int size)
+{
+	int piv;
+
+	if (low >= high || low < 0)
+		return;
+
+	piv = partition(array, low, high, size);
+
+	_quick_sort(array, low, piv - 1, size);
+	_quick_sort(array, piv + 1, high, size);
+}
+
+void quick_sort(int *array, size_t size)
+{
+	_quick_sort(array, 0, size - 1, size);
+}
